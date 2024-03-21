@@ -1,0 +1,6 @@
+@WatchMarketAPI_HostAddress = http://localhost:5122
+
+GET {{WatchMarketAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

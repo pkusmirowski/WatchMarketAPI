@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "pU4E9LLiTT+FBP9Y1KEfWqDHyxdIOltPZH4R+kwlsdE=",
+  "Source": "WatchMarketAPI",
+  "BasePath": "_content/WatchMarketAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
