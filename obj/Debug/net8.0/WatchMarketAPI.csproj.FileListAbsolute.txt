@@ -262,3 +262,4 @@ C:\Users\pawel\source\repos\WatchMarketAPI\WatchMarketAPI\obj\Debug\net8.0\refin
 C:\Users\pawel\source\repos\WatchMarketAPI\WatchMarketAPI\obj\Debug\net8.0\WatchMarketAPI.pdb
 C:\Users\pawel\source\repos\WatchMarketAPI\WatchMarketAPI\obj\Debug\net8.0\WatchMarketAPI.genruntimeconfig.cache
 C:\Users\pawel\source\repos\WatchMarketAPI\WatchMarketAPI\obj\Debug\net8.0\ref\WatchMarketAPI.dll
+C:\Users\pawel\source\repos\WatchMarketAPI\WatchMarketAPI\obj\Debug\net8.0\WatchMarketAPI.sourcelink.json

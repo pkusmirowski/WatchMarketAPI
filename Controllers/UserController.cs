@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
+using System;
 using System.Threading.Tasks;
 using WatchMarketAPI.DTOs;
-using WatchMarketAPI.Interfaces; // Dodany using
+using WatchMarketAPI.Interfaces;
 using WatchMarketAPI.Models;
-using WatchMarketAPI.Services;
 
 namespace WatchMarketAPI.Controllers
 {
@@ -15,95 +12,46 @@ namespace WatchMarketAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IWatchesContext _context;
-        private readonly IUserService _userService; // Zmiana na interfejs IUserService
+        private readonly IUserService _userService;
 
-        public UserController(IWatchesContext context, IUserService userService) // Zmiana w konstruktorze
+        public UserController(IWatchesContext context, IUserService userService)
         {
             _context = context;
             _userService = userService;
         }
 
-        // GET: api/User
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.GetUsersAsync();
         }
 
-        // POST: api/User
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(CreateUserDto userDto)
+        public async Task<ActionResult<User>> RegisterUser(CreateUserDto userDto)
         {
-            var user = await _userService.RegisterUser(userDto);
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            var registeredUser = await _userService.RegisterUser(userDto);
+            return CreatedAtAction("GetUser", new { id = registeredUser.Id }, registeredUser);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginUser([FromBody] LoginUserDto model)
+        {
+            try
+            {
+                var token = await _userService.LoginUser(model.Email, model.Password);
+                if (token != null)
+                {
+                    return Ok(new { Token = token });
+                }
+                else
+                {
+                    return Unauthorized("Invalid email or password");
+                }
+            }
+            catch
+            {
+                return BadRequest("An error occurred while processing your request.");
+            }
         }
     }
 }
-
-// GET: api/User/5
-//[HttpGet("{id}")]
-//public async Task<ActionResult<User>> GetUser(int id)
-//{
-//    var user = await _context.Users.FindAsync(id);
-
-//    if (user == null)
-//    {
-//        return NotFound();
-//    }
-
-//    return user;
-//}
-
-//// PUT: api/User/5
-//// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-//[HttpPut("{id}")]
-//public async Task<IActionResult> PutUser(int id, User user)
-//{
-//    if (id != user.Id)
-//    {
-//        return BadRequest();
-//    }
-
-//    _context.UpdateEntity(user);
-
-//    try
-//    {
-//        await _context.SaveChangesAsync();
-//    }
-//    catch (DbUpdateConcurrencyException)
-//    {
-//        if (!UserExists(id))
-//        {
-//            return NotFound();
-//        }
-//        else
-//        {
-//            throw;
-//        }
-//    }
-
-//    return NoContent();
-//}
-
-// DELETE: api/User/5
-//[HttpDelete("{id}")]
-//public async Task<IActionResult> DeleteUser(int id)
-//{
-//    var user = await _context.Users.FindAsync(id);
-//    if (user == null)
-//    {
-//        return NotFound();
-//    }
-
-//    _context.Users.Remove(user);
-//    await _context.SaveChangesAsync();
-
-//    return NoContent();
-//}
-
-//private bool UserExists(int id)
-//{
-//    return _context.Users.Any(e => e.Id == id);
-//}
-
